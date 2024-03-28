@@ -44,7 +44,7 @@ table_details = get_table_details()
 
 prompt2 = ChatPromptTemplate.from_template(
    """
-  You are a helpful Data science assistant , Your objective is to analyze the following table descriptions and Return the names of ALL the SQL tables that MIGHT be relevant to the question: {user_question}
+  You are a helpful Data science assistant , Your objective is to analyze the following table descriptions and Return the names of ALL the SQL tables that MIGHT be relevant to the question: {question}
   \n\nRemember to include ALL POTENTIALLY RELEVANT tables, even if you're not sure that they're needed.and you should return the table names as a list
   for example question : which customers made the top 5 highest payments
   the desired answer should be ['customers','payments']
@@ -99,7 +99,7 @@ def get_tables(output: Dict) -> List[str]:
         # Handle the case where the text output is not a valid list representation
         return []
 
-table_chain = {"user_question": itemgetter("question")} | LLMChain(llm=llm, prompt=prompt2) | get_tables
+table_chain = {"question": itemgetter("question")} | LLMChain(llm=llm, prompt=prompt2) | get_tables
 
 
 # table_names = "\n".join(db.get_usable_table_names())
